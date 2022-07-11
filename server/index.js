@@ -33,7 +33,6 @@ app.get("/",(req,res)=>{
     res.send("Hello world");
 })
 
-
 app.post("/patreg",async(req,res)=>{
     try{
         const name = req.body.name;

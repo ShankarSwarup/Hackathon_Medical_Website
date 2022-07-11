@@ -71,7 +71,5 @@ const MedicineSchema = new mongoose.Schema({
     }
 });
 
-
-
 const MedicineModel = mongoose.model('meddetails',MedicineSchema);
 module.exports = MedicineModel;
