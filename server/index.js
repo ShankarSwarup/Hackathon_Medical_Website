@@ -7,6 +7,7 @@ const router = express.Router();
 const Patient = require("./models/patientschema");
 const Doctor = require("./models/doctordetails");
 const Appoint = require("./models/appointment");
+const Medicine = require("./models/medicineschema");
 
 dotenv.config();
 

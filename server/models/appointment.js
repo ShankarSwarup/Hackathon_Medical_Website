@@ -33,10 +33,6 @@ const AppointmentSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    "slottime":{
-        type:String,
-        required:true
-    },
     "userphn":{
         type:String,
         required:true
