@@ -399,3 +399,49 @@ app.post("/approvedappoint",async(req,res)=>{
         res.status(400).json({status : "err",message : "Data not send !",token : false})
     }
 })
+
+app.post("/medicine",async(req,res)=>{
+    try{
+        const docname = req.body.docname;
+        const useremail = req.body.useremail;
+        const userphn = req.body.userphn;
+        const hospitalname = req.body.hospitalname;
+        const date =  req.body.date;
+        const slottime =  req.body.slottime;
+        const username = req.body.username;
+        const city = req.body.city;
+        const medicine = req.body.medicine;
+        var total  = 0;
+        const xi = medicine.map((x)=>{
+            total = total + x["cost"];
+        })
+        var med = new Medicine({"docname" : docname , "useremail":useremail , "userphn":userphn,"hospitalname":hospitalname, "date":date,"slottime":slottime, "username":username , "city":city,"medicine":medicine,"totalcost":total});
+        med.save(function (err, book) {
+                    if (err) return console.error(err);
+        });
+        return res.json({status:'ok',message : "Successful !"});       
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Data not send !",token : false})
+    }
+})
+
+app.post("/prevrecords",async(req,res)=>{
+    try{
+        const docname = req.body.docname;
+        const useremail = req.body.useremail;
+        const userphn = req.body.userphn;
+        const hospitalname = req.body.hospitalname;
+        const date =  req.body.date;
+        const slottime =  req.body.slottime;
+        const username = req.body.username;
+        const city = req.body.city;
+        var med = await Medicine.findOne({"docname" : docname , "useremail":useremail , "userphn":userphn,"hospitalname":hospitalname, "date":date,"slottime":slottime, "username":username , "city":city});
+        var data = med["medicine"];
+        var cost = med["totalcost"];
+        return res.json({status:'ok',message : "Successful !",data:data,cost:cost});       
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Data not send !",token : false})
+    }
+})

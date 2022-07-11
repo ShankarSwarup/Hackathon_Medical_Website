@@ -44,7 +44,7 @@ const MedicineSchema = new mongoose.Schema({
                 required:true
             },
             "medcount":{
-                type:Number,
+                type:String,
                 required:true
             },
             "cost":{
