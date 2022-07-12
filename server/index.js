@@ -47,7 +47,7 @@ app.post("/patreg",async(req,res)=>{
         const user = await Patient.findOne({"phn":phn});
         if(user)
         {
-            return res.status(400).json({status:'error',error:'Patient Already there'});
+            return res.json({status:'err',message:'Patient Already there'});
         }
         else
         {
@@ -60,7 +60,7 @@ app.post("/patreg",async(req,res)=>{
         
     }
     catch(err){
-        res.status(400).json({status : "err",message : "Data not send !",token : false})
+        res.json({status : "err",message : "Data not send !",token : false})
     }
 })
 
