@@ -8,6 +8,7 @@ const Patient = require("./models/patientschema");
 const Doctor = require("./models/doctordetails");
 const Appoint = require("./models/appointment");
 const Medicine = require("./models/medicineschema");
+const Disease = require("./models/diseases");
 
 dotenv.config();
 
@@ -287,8 +288,7 @@ app.post("/appoint",async(req,res)=>{
         app.save(function (err, book) {
                     if (err) return console.error(err);
         });
-        return res.json({status:'ok',message : "Successful !"});
-        
+        return res.json({status:'ok',message : "Successful !"});       
     }
     catch(err){
         res.status(400).json({status : "err",message : "Data not send !",token : false})
@@ -315,6 +315,61 @@ app.post("/selectdoc",async(req,res)=>{
     }
     catch(err){
         res.status(400).json({status : "err",message : "Data not send !",token : false})
+    }
+})
+
+app.post("/doclist",async(req,res)=>{
+    try{
+        const user = await Doctor.find();
+        const data = [];
+        user.map((x)=>{
+            y = [];
+            y.push(x["docname"]);
+            y.push(x["city"]);
+            y.push(x["hospitalname"]);
+            y.push(x["email"]);
+            y.push(x["phn"]);
+            data.push(y)
+        })
+        return res.json({status:'ok',message : "Successful !",doc:data});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Data not send !",token : false})
+    }
+})
+
+app.post("/docdetails",async(req,res)=>{
+    try{
+        const docname = req.body.docname;
+        const docemail = req.body.docemail;
+        const docphn = req.body.docphn;
+        const hospitalname = req.body.hospitalname;
+        const user = await Doctor.find({"docname":docname,"email":docemail,"phn":docphn,"hospitalname":hospitalname});
+        return res.json({status:'ok',message : "Successful !",doc:user});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Please Reload!",token : false})
+    }
+})
+
+app.post("/docremove",async(req,res)=>{
+    try{
+        const docname = req.body.docname;
+        const docemail = req.body.docemail;
+        const docphn = req.body.docphn;
+        const hospitalname = req.body.hospitalname;
+        Doctor.findOneAndDelete({"docname":docname,"email":docemail,"phn":docphn,"hospitalname":hospitalname}, function (err, docs) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                console.log("Deleted User : ", docs);
+            }
+        });
+        return res.json({status:'ok',message : "Successful !"});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Doctor not Removed!",token : false})
     }
 })
 
@@ -443,5 +498,150 @@ app.post("/prevrecords",async(req,res)=>{
     }
     catch(err){
         res.status(400).json({status : "err",message : "Data not send !",token : false})
+    }
+})
+
+app.post("/patlist",async(req,res)=>{
+    try{
+        const user = await Patient.find();
+        const data = [];
+        user.map((x)=>{
+            y = [];
+            y.push(x["name"]);
+            y.push(x["city"]);
+            y.push(x["gender"]);
+            y.push(x["email"]);
+            y.push(x["phn"]);
+            data.push(y)
+        })
+        return res.json({status:'ok',message : "Successful !",pat:data});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Please Reload !",token : false})
+    }
+})
+
+app.post("/patdetails",async(req,res)=>{
+    try{
+        const patname = req.body.name;
+        const patemail = req.body.email;
+        const patphn = req.body.phn;
+        const gender = req.body.gender;
+        const user = await Patient.find({"name":patname,"email":patemail,"phn":patphn,"gender":gender});
+        return res.json({status:'ok',message : "Successful !",pat:user});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Please Reload!",token : false})
+    }
+})
+
+app.post("/patcheck",async(req,res)=>{
+    try{
+        const patname = req.body.name;
+        const user = await Patient.find({"name":patname});
+        return res.json({status:'ok',message : "Successful !",pat:user});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Please Reload!",token : false})
+    }
+})
+
+app.post("/patremove",async(req,res)=>{
+    try{
+        const name = req.body.name;
+        const email = req.body.email;
+        const phn = req.body.phn;
+        const gender = req.body.gender;
+        Patient.findOneAndDelete({"name":name,"email":email,"phn":phn,"gender":gender}, function (err, docs) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                console.log("Deleted User : ", docs);
+            }
+        });
+        return res.json({status:'ok',message : "Successful !"});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Patient not Removed!",token : false})
+    }
+})
+
+
+app.post('/adddis',async(req,res)=>{
+    try{
+        const data = req.body.files;
+        data.map(async(d)=>{
+        const dis = await Disease.find({"Disease" : d.Disease});
+        if(!dis)
+        {
+            var x = new Disease({"Disease" : d.Disease , "Description":d.Description});
+            x.save();
+        }
+        })
+        return res.json({status:'ok',message : "Successful !"});
+    }
+    catch(err)
+    {
+        res.json({status : "err",message : "Data Not Saved!",token : false})
+    }
+})
+
+
+app.post("/diseaseslist",async(req,res)=>{
+    try{
+        const user = await Disease.find();
+        return res.json({status:'ok',message : "Successful !",dis:user});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Please Reload !",token : false})
+    }
+})
+
+app.post("/editdiseases",async(req,res)=>{
+    try{
+        const dis = req.body.disease;
+        const des = req.body.description;
+        const x =  await Disease.findOne({"Disease":dis})
+        // console.log(x.Description);
+        x.Description = des;
+        x.save();
+        // console.log(x)
+        return res.json({status:'ok',message : "Successful !"});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Please Reload !",token : false})
+    }
+})
+
+app.post("/deletediseases",async(req,res)=>{
+    try{
+        const dis = req.body.disease;
+        Disease.findOneAndDelete({"Disease":dis}, function (err, docs) {
+            if (err){
+                console.log(err)
+            }
+            else{
+                console.log("Deleted User : ", docs);
+            }
+        });
+        return res.json({status:'ok',message : "Successful !"});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Disease Not Deleted!",token : false})
+    }
+})
+
+app.post("/adddisease",async(req,res)=>{
+    try{
+        const dis = req.body.disease;
+        const des = req.body.description;
+        const x = new Disease({"Disease":dis,"Description":des});
+        x.save();
+        console.log(x);
+        return res.json({status:'ok',message : "Successful !"});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Disease Not Deleted!",token : false})
     }
 })

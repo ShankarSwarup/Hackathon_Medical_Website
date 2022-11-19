@@ -44,7 +44,7 @@ const Patreg = () => {
         <input type="text" id="" value={name} onChange={event => setname(event.target.value)} placeholder="Enter Name:"/>
         <input type="text" id="" value={email} onChange={event => setemail(event.target.value)} placeholder="Enter Email:"/>
         <input type="text" id="" value={phn} onChange={event => setphn(event.target.value)} placeholder="Enter Phone number:"/>
-        <input type="text" id="" value={bg} onChange={event => setbg(event.target.value)} placeholder="Enter background:"/>
+        <input type="text" id="" value={bg} onChange={event => setbg(event.target.value)} placeholder="Enter bloodgroup:"/>
         <input type="text" id="" value={gender} onChange={event => setgender(event.target.value)} placeholder="Enter gender:"/>
         <input type="text" id="" value={dob} onChange={event => setdob(event.target.value)} placeholder="Enter dob:"/>
         <input type="text" id="" value={country} onChange={event => setcountry(event.target.value)} placeholder="Enter country:"/>

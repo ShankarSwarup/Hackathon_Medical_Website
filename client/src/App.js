@@ -11,6 +11,7 @@ import Approvedappointments from "./components/Approvedappointments";
 import Cancelledappointments from "./components/Cancelledappointments";
 import Pendingappointments from "./components/Pendingappointments";
 import Home from "./components/Home";
+import AddDiseases from "./components/AddDiseases";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="approvedappointments" element={<Approvedappointments />} />
           <Route path="cancelledappointments" element={<Cancelledappointments />} />
           <Route path="pendingappointments" element={<Pendingappointments />} />
+          <Route path="adddiseases" element={<AddDiseases />} />
       </Routes>
     </BrowserRouter>
   );
