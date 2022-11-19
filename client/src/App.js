@@ -12,6 +12,7 @@ import Cancelledappointments from "./components/Cancelledappointments";
 import Pendingappointments from "./components/Pendingappointments";
 import Home from "./components/Home";
 import AddDiseases from "./components/AddDiseases";
+import AddPrecautions from "./components/AddPrecautions";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="cancelledappointments" element={<Cancelledappointments />} />
           <Route path="pendingappointments" element={<Pendingappointments />} />
           <Route path="adddiseases" element={<AddDiseases />} />
+          <Route path="addprecautions" element={<AddPrecautions />} />
       </Routes>
     </BrowserRouter>
   );

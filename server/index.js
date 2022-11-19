@@ -572,11 +572,47 @@ app.post('/adddis',async(req,res)=>{
     try{
         const data = req.body.files;
         data.map(async(d)=>{
-        const dis = await Disease.find({"Disease" : d.Disease});
+        const dis = await Disease.findOne({"Disease" : d.Disease});
+        const data = ["nothing"]
         if(!dis)
         {
-            var x = new Disease({"Disease" : d.Disease , "Description":d.Description});
+            var x = new Disease({"Disease" : d.Disease , "Description":d.Description,"Precaution":data});
             x.save();
+            // console.log(x);
+        }
+        else
+        {
+            dis.Description = d.Description;
+            dis.save();
+            // console.log(dis);
+        }
+        })
+        return res.json({status:'ok',message : "Successful !"});
+    }
+    catch(err)
+    {
+        res.json({status : "err",message : "Data Not Saved!",token : false})
+    }
+})
+
+app.post('/adddisprec',async(req,res)=>{
+    try{
+        const data = req.body.files;
+        // const key = Object.keys(data[0]);
+        // console.log(key);
+
+        data.map(async(d)=>{
+        const dis = await Disease.findOne({"Disease" : d.Disease});
+        var datas  = [d.Precaution_1,d.Precaution_2,d.Precaution_3,d.Precaution_4];
+        if(!dis)
+        {
+            var x = new Disease({"Disease" : d.Disease , "Description":"nothing","Precaution":datas});
+            x.save();
+        }
+        else
+        {
+            dis.Precaution = datas;
+            dis.save();
         }
         })
         return res.json({status:'ok',message : "Successful !"});
@@ -602,9 +638,11 @@ app.post("/editdiseases",async(req,res)=>{
     try{
         const dis = req.body.disease;
         const des = req.body.description;
+        const pre  = req.body.Precaution;
         const x =  await Disease.findOne({"Disease":dis})
         // console.log(x.Description);
         x.Description = des;
+        x.Precaution = [pre];
         x.save();
         // console.log(x)
         return res.json({status:'ok',message : "Successful !"});
@@ -632,13 +670,24 @@ app.post("/deletediseases",async(req,res)=>{
     }
 })
 
+app.post("/deletealldiseases",async(req,res)=>{
+    try{
+        Disease.deleteMany({}, function(err) {})
+        return res.json({status:'ok',message : "Successful !"});
+    }
+    catch(err){
+        res.status(400).json({status : "err",message : "Disease Not Deleted!",token : false})
+    }
+})
+
 app.post("/adddisease",async(req,res)=>{
     try{
         const dis = req.body.disease;
         const des = req.body.description;
-        const x = new Disease({"Disease":dis,"Description":des});
+        const pre = req.body.precaution;
+        const x = new Disease({"Disease":dis,"Description":des,"Precaution":[pre]});
         x.save();
-        console.log(x);
+        // console.log(x);
         return res.json({status:'ok',message : "Successful !"});
     }
     catch(err){

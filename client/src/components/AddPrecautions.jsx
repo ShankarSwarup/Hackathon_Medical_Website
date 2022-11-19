@@ -3,7 +3,7 @@ import { Navigate,useNavigate} from 'react-router-dom'
 import React from "react";
 import * as XLSX from "xlsx";
 
-const AddDiseases = () => {
+const AddPrecautions = () => {
   const [files,setfiles] = useState([]);
   const navigate = useNavigate();
   const [name,setName] = useState("");
@@ -30,7 +30,7 @@ const AddDiseases = () => {
 
     e.preventDefault();
 
-    const res = await fetch('http://localhost:3001/adddis',{
+    const res = await fetch('http://localhost:3001/adddisprec',{
         method:'POST',
         headers: {
              'Content-Type' : 'application/json'
@@ -52,7 +52,7 @@ const AddDiseases = () => {
     else{
         // setfiles([]);
         alert(data.message);
-        navigate("/adddiseases");
+        navigate("/addprecautions");
     }
     
     
@@ -83,4 +83,4 @@ const Func = () => {
 return ( te ? <Func/> : <Navigate to ="/" />)
 }
 
-export default AddDiseases
+export default AddPrecautions

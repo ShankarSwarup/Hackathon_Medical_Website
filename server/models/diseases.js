@@ -9,6 +9,10 @@ const DiseaseSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    "Precaution":{
+        type:Array,
+        required:true
+    }
 });
 
 
